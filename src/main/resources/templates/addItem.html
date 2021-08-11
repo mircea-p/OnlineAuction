@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+  <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form class="form-horizontal" th:object="${productDto}" th:action="@{/addItem}" method="post" enctype="multipart/form-data">
+  <fieldset>
+
+    <!-- Form Name -->
+    <legend>PRODUCTS</legend>
+
+    <!-- Product name area-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="product_name">Product name</label>
+      <div class="col-md-4">
+        <input id="product_name" th:field="*{name}" name="name" placeholder="Product name" class="form-control input-md" required="" type="text">
+
+      </div>
+    </div>
+
+    <!-- Product description area-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="product_description">Product description:</label>
+      <div class="col-md-4">
+        <input id="product_description"  th:field="*{description}" name="description" placeholder="Product description" class="form-control input-md" required="" type="text">
+
+      </div>
+    </div>
+
+    <!-- Product starting price area-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="product_starting_price">Product starting price:</label>
+      <div class="col-md-4">
+        <input id="product_starting_price"  th:field="*{startBidingPrice} "name="startBidingPrice" placeholder="Product starting price" class="form-control input-md" required="" type="number">
+
+      </div>
+      <label th:if="${#fields.hasErrors('startBidingPrice')}" th:class="'error'" th:errors="*{startBidingPrice}" class="col-lg-4 control-label" style="color:red;" ></label>
+    </div>
+
+    <!-- Select Basic -->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="product_category">Product category</label>
+      <div class="col-md-4">
+
+        <select name="color" id = "product_category" th:field = "*{category}">
+          <option th:each="colorOpt : ${T(com.sda.onlineAuction.model.Category).values()}"
+                  th:value="${colorOpt.name()}" th:text="${colorOpt.name()}"></option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Product Auction end date and time area-->
+
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="auction_end_time">Auction end date and time:</label>
+      <div class="col-md-4">
+        <input id="auction_end_time"   th:field="*{endDateTime}" name="endDateTime" placeholder="Auction end date and time." class="form-control input-md" required="" type="datetime-local">
+
+      </div>
+    </div>
+    <!-- Product image area-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="product_image">Product name</label>
+      <div class="col-md-4">
+        <input id="product_image"  name="productImage" accept="image/png, image/jpg, image/jpeg" placeholder="Product Image" class="form-control input-md" required="" type="file">
+
+      </div>
+    </div>
+    <!-- Product button area-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="singlebutton"></label>
+      <div class="col-md-4">
+        <button id="singlebutton" name="singlebutton" class="btn btn-primary" type="submit">Add Product.</button>
+      </div>
+    </div>
+  </fieldset>
+</form>
+</body>
+</html>
