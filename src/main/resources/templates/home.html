@@ -25,9 +25,9 @@
 
 
         <div id="1" class="item new col-md-4" th:each="product:${products}">
-            <a href="single-product.html">
+            <a th:href="@{/item/{id}(id=${product.id})}">
                 <div class="featured-item">
-                    <img src="assets/images/product-01.jpg" alt="">
+                    <img th:src="${'data:image/png;base64,'+product.image}" alt="">
                     <h4 th:text="${product.name}"></h4th:text></h4>
                     <h6 th:text="${product.startBidingPrice}"></h6>
                 </div>

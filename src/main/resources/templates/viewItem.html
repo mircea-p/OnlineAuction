@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"/>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"/>
+
+    <style>.card {
+        width: 444px
+    }
+
+    body {
+        background: #eee
+    }</style>
+    <title>Title</title>
+</head>
+<body>
+
+<div class="d-flex justify-content-center container mt-5">
+    <div class="card p-3 bg-white"><i class="fa fa-apple"></i>
+        <div class="about-product text-center mt-2">
+            <img th:src="${'data:image/png;base64,'+product.image}" alt="">
+            <div>
+                <h4 th:text="${product.name}"></h4>
+                <h6 th:text="${product.description}" class="mt-0 text-black-50"></h6>
+            </div>
+        </div>
+        <div class="stats mt-2">
+
+            <div class="d-flex justify-content-between p-price"><span>Category: </span><span th:text="${product.category}"></span></div>
+            <div class="d-flex justify-content-between p-price"><span>Starting price:</span><span th:text="${product.startBidingPrice}"></span></div>
+            <div class="d-flex justify-content-between p-price"><span>End bidding date and time:</span><span th:text="${product.endDateTime}"></span></div>
+
+        </div>
+        <div class="d-flex justify-content-between total font-weight-bold mt-4"><span>Total</span><span>$7,197.00</span></div>
+    </div>
+</div>
+
+</body>
+</html>
