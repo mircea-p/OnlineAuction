@@ -2,9 +2,9 @@ package com.sda.onlineAuction.controller;
 
 import com.sda.onlineAuction.dto.ProductDto;
 import com.sda.onlineAuction.dto.UserDto;
+import com.sda.onlineAuction.service.ProductService;
 import com.sda.onlineAuction.service.UserService;
 import com.sda.onlineAuction.validator.ProductDtoValidator;
-import com.sda.onlineAuction.service.ProductService;
 import com.sda.onlineAuction.validator.UserDtoValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -64,8 +64,8 @@ public class HomeController {
     public String getViewItemPage(@PathVariable(value = "itemId") String itemId, Model model) {
         System.out.println("Am primit id-ul: " + itemId);
         Optional<ProductDto> optionalProductDto = productService.getProductDtoById(itemId);
-        if(!optionalProductDto.isPresent()){
-            return"errorPage";
+        if (!optionalProductDto.isPresent()) {
+            return "errorPage";
         }
         ProductDto productDto = optionalProductDto.get();
         model.addAttribute("product", productDto);
@@ -74,18 +74,24 @@ public class HomeController {
     }
 
     @GetMapping("/registration")
-    public String getRegistrationPage(Model model){
+    public String getRegistrationPage(Model model) {
         UserDto userDto = new UserDto();
         model.addAttribute("userDto", userDto);
         return "registration";
     }
-    @PostMapping(value="/registration")
-    public String postRegistrationPage(Model model, UserDto userDto, BindingResult bindingResult){
-    userDtoValidator.validate(userDto, bindingResult);
-    if(bindingResult.hasErrors()){
-        return "registration";
+
+    @PostMapping(value = "/registration")
+    public String postRegistrationPage(Model model, UserDto userDto, BindingResult bindingResult) {
+        userDtoValidator.validate(userDto, bindingResult);
+        if (bindingResult.hasErrors()) {
+            return "registration";
+        }
+        userService.add(userDto);
+        return "redirect:/home";
     }
-    userService.add(userDto);
-    return "redirect:/home";
+
+    @GetMapping(value = "/login")
+    public String getLoginPage(Model model){
+        return "login";
     }
 }
