@@ -1,4 +1,4 @@
-package com.sda.onlineAuction.service;
+package com.sda.onlineAuction.validator;
 
 import com.sda.onlineAuction.dto.ProductDto;
 import org.springframework.stereotype.Service;

@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductService {
@@ -49,4 +50,10 @@ public class ProductService {
 
         return Optional.of(productDto);
     }
+//    public List<ProductDto> getAllProductDtosWithStreams() {
+//        List<Product> products = productRepository.findAll();
+//        products.stream()
+//                .map(productMapper::map)
+//                .collect(Collectors.toList());
+//    }
 }
