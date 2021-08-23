@@ -5,12 +5,14 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 @Getter
 @Setter
 @Entity
 public class Product {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,5 +24,6 @@ public class Product {
     private LocalDateTime endDateTime;
     @Lob
     private byte[] image;
-
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
+    private List<Bid> bidList;
 }

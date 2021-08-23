@@ -3,10 +3,8 @@ package com.sda.onlineAuction.model;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 
 @Getter
@@ -21,4 +19,6 @@ public class User {
     private String email;
     private String password;
     private UserRole userRole;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<Bid> bidList;
 }
