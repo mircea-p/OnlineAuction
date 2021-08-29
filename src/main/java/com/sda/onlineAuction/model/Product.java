@@ -22,8 +22,11 @@ public class Product {
     private Integer startingPrice;
     private Category category;
     private LocalDateTime endDateTime;
+    @ManyToOne(cascade = CascadeType.ALL)
+    private User winner;
     @Lob
     private byte[] image;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
     private List<Bid> bidList;
+
 }

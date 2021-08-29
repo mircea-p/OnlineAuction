@@ -6,10 +6,10 @@ import com.sda.onlineAuction.dto.UserDto;
 import com.sda.onlineAuction.service.BidService;
 import com.sda.onlineAuction.service.ProductService;
 import com.sda.onlineAuction.service.UserService;
+import com.sda.onlineAuction.validator.BidDtoValidator;
 import com.sda.onlineAuction.validator.ProductDtoValidator;
 import com.sda.onlineAuction.validator.UserDtoValidator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,6 +37,9 @@ public class HomeController {
     @Autowired
     private BidService bidService;
 
+    @Autowired
+    private BidDtoValidator bidDtoValidator;
+
     @GetMapping("/addItem")
     public String getAddItemPage(Model model) {
         // aici procesez din greu requestul, la final:.
@@ -59,32 +62,44 @@ public class HomeController {
 
     }
 
-    @GetMapping("/home")
-    public String getHomePage(Model model) {
-        List<ProductDto> productDtoList = productService.getAllProductDtos();
+    @GetMapping({"/home","/"})
+    public String getHomePage(Model model, Authentication authentication) {
+        List<ProductDto> productDtoList = productService.getAllActiveProductDtos(authentication.getName());
         model.addAttribute("products", productDtoList);
         return "home";
     }
 
     @GetMapping("/item/{itemId}")
-    public String getViewItemPage(@PathVariable(value = "itemId") String itemId, Model model) {
+    public String getViewItemPage(@PathVariable(value = "itemId") String itemId,
+                                  Model model, Authentication authentication) {
         System.out.println("Am primit id-ul: " + itemId);
-        Optional<ProductDto> optionalProductDto = productService.getProductDtoById(itemId);
+        Optional<ProductDto> optionalProductDto = productService.getProductDtoById(itemId, authentication.getName());
         if (!optionalProductDto.isPresent()) {
             return "errorPage";
         }
         BidDto bidDto = new BidDto();
-        model.addAttribute("bid", bidDto);
+        model.addAttribute("bidDto", bidDto);
         ProductDto productDto = optionalProductDto.get();
         model.addAttribute("product", productDto);
         return "viewItem";
 
     }
+
     @PostMapping("item/{itemId}")
     public String postProductPage(BidDto bidDto, BindingResult bindingResult,
-                                  @PathVariable(value = "itemId") String productId, Authentication authentication){
+                                  @PathVariable(value = "itemId") String productId, Authentication authentication, Model model) {
         System.out.println("Am primit " + bidDto.getValue() + " pentru produsul cu id-ul: " + productId);
-        bidService.placeBid(bidDto,productId, authentication.getName());
+
+        bidDtoValidator.validate(bidDto, bindingResult, productId);
+        if (bindingResult.hasErrors()) {
+            Optional<ProductDto> optionalProductDto = productService.getProductDtoById(productId, authentication.getName());
+            if (!optionalProductDto.isPresent()) {
+                return "errorPage";
+            }
+            model.addAttribute("product", optionalProductDto.get());
+            return "viewItem";
+        }
+        bidService.placeBid(bidDto, productId, authentication.getName());
         return "redirect:/item/" + productId;
     }
 
@@ -106,7 +121,12 @@ public class HomeController {
     }
 
     @GetMapping(value = "/login")
-    public String getLoginPage(Model model){
+    public String getLoginPage(Model model) {
+        return "login";
+    }
+    @GetMapping(value = "/login-error")
+    public String getLoginErrorPage(Model model) {
+        model.addAttribute("loginError", true);
         return "login";
     }
 }

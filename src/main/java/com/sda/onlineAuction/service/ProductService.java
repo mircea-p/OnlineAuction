@@ -30,26 +30,37 @@ public class ProductService {
         productRepository.save(product);
     }
 
-    public List<ProductDto> getAllProductDtos() {
+    public List<ProductDto> getAllProductDtos(String email) {
         List<Product> products = productRepository.findAll();
         List<ProductDto> result = new ArrayList<>();
         for(Product product: products){
-           ProductDto productDto = productMapper.map(product);
+           ProductDto productDto = productMapper.map(product, email);
+            result.add(productDto);
+        }
+        return result;
+    }
+    public List<ProductDto> getAllActiveProductDtos(String email) {
+        List<Product> products = productRepository.findAllByEndDateTimeAfter(LocalDateTime.now());
+        List<ProductDto> result = new ArrayList<>();
+        for(Product product: products){
+            ProductDto productDto = productMapper.map(product, email);
             result.add(productDto);
         }
         return result;
     }
 
-    public Optional<ProductDto> getProductDtoById(String productId){
+    public Optional<ProductDto> getProductDtoById(String productId, String email){
         Optional<Product> optionalProduct = productRepository.findById(Integer.valueOf(productId));
         if(!optionalProduct.isPresent()){
             return Optional.empty();
         }
         Product product = optionalProduct.get();
-        ProductDto productDto = productMapper.map(product);
+        ProductDto productDto = productMapper.map(product, email);
 
         return Optional.of(productDto);
     }
+
+
 //    public List<ProductDto> getAllProductDtosWithStreams() {
 //        List<Product> products = productRepository.findAll();
 //        products.stream()

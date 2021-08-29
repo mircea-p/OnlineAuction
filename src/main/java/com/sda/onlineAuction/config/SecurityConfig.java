@@ -28,14 +28,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/registration").permitAll()
+                .antMatchers("/registration","/assets/**").permitAll()
+
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login").permitAll()
+                .failureUrl("/login-error")
                 .and()
                 .logout()
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logaut"))
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .logoutSuccessUrl("/login")
                 .permitAll();
     }

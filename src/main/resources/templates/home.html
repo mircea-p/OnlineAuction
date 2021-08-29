@@ -1,12 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 
     <meta charset="UTF-8">
-    <title>This is the online Auction aplication</title>
-    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700" rel="stylesheet">
-
-    <!-- Bootstrap core CSS -->
     <link rel="stylesheet" type="text/css" th:href="@{/assets/css/bootstrap.min.css}"/>
 
 
@@ -18,18 +14,42 @@
 
 </head>
 <body>
+
 <div class="featured container no-gutter">
 
-    <div class="row posts">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a sec:authorize="isAuthenticated()" class="nav-link" href="/home">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a sec:authorize="hasRole('ROLE_SELLER')"class="nav-link" href="/addItem">Add Item</a>
+                </li>
+                <li class="nav-item">
+                    <a sec:authorize="isAnonymous()" class="nav-link" href="/registration">Registration</a>
+                </li>
+                <li class="nav-item">
+                    <a sec:authorize="isAnonymous()" class="nav-link " href="/login">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a sec:authorize="isAuthenticated()" class="nav-link " href="/logout">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
 
 
+    <div class="row posts homePage">
 
         <div id="1" class="item new col-md-4" th:each="product:${products}">
             <a th:href="@{/item/{id}(id=${product.id})}">
                 <div class="featured-item">
                     <img th:src="${'data:image/png;base64,'+product.image}" alt="">
                     <h4 th:text="${product.name}"></h4th:text></h4>
-                    <h6 th:text="${product.startBidingPrice}"></h6>
+                    <h6 th:if="${product.currentBidPrice != '0'}" th:text="${product.currentBidPrice}"></h6>
+                    <h6 th:if="${product.currentBidPrice == '0'}" th:text="${product.startBidingPrice}"></h6>
                 </div>
             </a>
         </div>

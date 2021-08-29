@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
 
@@ -19,7 +19,31 @@
 </head>
 <body>
 
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a sec:authorize="isAuthenticated()" class="nav-link" href="/home">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a  sec:authorize="hasRole('ROLE_SELLER')" class="nav-link" href="/addItem">Add Item</a>
+            </li>
+            <li class="nav-item">
+                <a sec:authorize="isAnonymous()" class="nav-link" href="/registration">Registration</a>
+            </li>
+            <li class="nav-item">
+                <a sec:authorize="isAnonymous()" class="nav-link " href="/login">Login</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
 <div class="d-flex justify-content-center container mt-5">
+
+
+
+
     <div class="card p-3 bg-white"><i class="fa fa-apple"></i>
         <div class="about-product text-center mt-2">
             <img th:src="${'data:image/png;base64,'+product.image}" alt="">
@@ -41,12 +65,25 @@
                 </div>
 
                 <div class="d-flex justify-content-between p-price">
+                    <span th:if="${product.currentBidPrice > '0'}">Current bid price:</span>
+                    <span th:if="${product.currentBidPrice == '0'}">No bids yet!</span>
+                    <span th:if="${product.currentBidPrice > '0'}" th:text="${product.currentBidPrice}"></span>
+                </div>
+
+                <div class="d-flex justify-content-between p-price">
+                    <span th:if="${product.loggedUserMaxBid == product.currentBidPrice && product.loggedUserMaxBid != '0'}">You are winning this auction!</span>
+                    <span th:if="${product.loggedUserMaxBid != product.currentBidPrice && product.loggedUserMaxBid != '0'}">Your bid of
+                        <span th:text="${product.loggedUserMaxBid}"></span> was overtaken!</span>
+                </div>
+
+
+                <div class="d-flex justify-content-between p-price">
                     <span>End bidding date and time:</span>
                     <span th:text="${product.endDateTime}"></span>
                 </div>
 
-                <div class="d-flex justify-content-between p-price">
-                        <form th:object="${bid}" method="post" th:action="@{/item/{id}(id=${product.id})}">
+                <div sec:authorize="hasRole('ROLE_BIDDER')" class="d-flex justify-content-between p-price">
+                        <form th:object="${bidDto}" method="post" th:action="@{/item/{id}(id=${product.id})}">
                             <span>
 
                                 <input type="text" th:field="*{value}" id="bid_value"  placeholder="Your bid" class="input-xlarge">
@@ -56,6 +93,7 @@
                                 <button id="singlebutton" name="singlebutton" class="btn btn-primary" type="submit">Place bid</button>
                                 <p class="help-block"></p>
                             </span>
+                            <label th:if="${#fields.hasErrors('value')}" th:class="'error'" th:errors="*{value}" class="col-lg-4 control-label" style="color:red;" ></label>
                         </form>
                 </div>
             </div>
