@@ -26,7 +26,7 @@ public class Product {
     private User winner;
     @Lob
     private byte[] image;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product", fetch = FetchType.EAGER)
     private List<Bid> bidList;
 
 }

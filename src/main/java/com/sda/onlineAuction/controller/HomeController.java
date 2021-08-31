@@ -68,6 +68,12 @@ public class HomeController {
         model.addAttribute("products", productDtoList);
         return "home";
     }
+    @GetMapping("/myProducts")
+    public String getmyProductsPage(Model model, Authentication authentication) {
+        List<ProductDto> productDtoList = productService.getProductDtosFor(authentication.getName());
+        model.addAttribute("products", productDtoList);
+        return "myProducts";
+    }
 
     @GetMapping("/item/{itemId}")
     public String getViewItemPage(@PathVariable(value = "itemId") String itemId,

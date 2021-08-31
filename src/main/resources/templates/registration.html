@@ -22,6 +22,9 @@
       <li class="nav-item ">
         <a sec:authorize="isAuthenticated()" class="nav-link" href="/home">Home <span class="sr-only">(current)</span></a>
       </li>
+      <li class="nav-item">
+        <a sec:authorize="hasRole('ROLE_BIDDER')" class="nav-link" href="/myProducts">My products <span class="sr-only">(current)</span></a>
+      </li>
       <li class="nav-item ">
         <a  sec:authorize="hasRole('ROLE_SELLER')" class="nav-link" href="/addItem">Add Item</a>
       </li>

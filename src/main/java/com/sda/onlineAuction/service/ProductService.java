@@ -60,6 +60,16 @@ public class ProductService {
         return Optional.of(productDto);
     }
 
+    public List<ProductDto> getProductDtosFor(String email) {
+        List<Product> products = productRepository.findByWinnerEmail(email);
+        List<ProductDto> result = new ArrayList<>();
+        for(Product product: products){
+            ProductDto productDto = productMapper.map(product, email);
+            result.add(productDto);
+        }
+        return result;
+    }
+
 
 //    public List<ProductDto> getAllProductDtosWithStreams() {
 //        List<Product> products = productRepository.findAll();
