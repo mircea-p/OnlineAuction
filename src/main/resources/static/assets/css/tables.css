@@ -1,0 +1,53 @@
+.products-table{
+    border-collapse: collapse;
+    background-color: blanchedalmond;
+    border-radius: 10px;
+    box-shadow: 0px 10px 30px 5px rgba(0,0,0,.15);
+    margin: 25px auto;
+    text-align: left;
+}
+.products-table thead tr{
+    border-bottom: 1px dashed black;
+    background-color:darkkhaki;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+.products-table thead tr th{
+    font-size: 16px;
+    letter-spacing: 2px;
+    color: black;
+    padding: 8px;
+    text-align: center;
+
+}
+.products-table tbody tr td{
+    padding: 5px;
+    text-align: center;
+}
+.products-table thead tr th:nth-last-child(1){
+    text-align: center;
+}
+.products-table tbody span{
+    font-size: 16px;
+    color: red;
+}
+h1{
+    background-color:darkkhaki;
+    color: black;
+    border-radius: 10px;
+    text-align: center;
+}
+/* lucram la sectiunea mare*/
+/*.table-background{*/
+/*    background-color: green;*/
+/*    border-radius: 10px;*/
+/*   align-content: center;*/
+/*}*/
+/*body{*/
+/*   align-content: center;*/
+/*}*/
+/*.products-big-section{*/
+/*    width: 90%;*/
+/*    background-color: black;*/
+/*    */
+/*}*/

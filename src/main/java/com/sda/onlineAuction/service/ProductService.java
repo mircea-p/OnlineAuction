@@ -7,6 +7,7 @@ import com.sda.onlineAuction.model.Product;
 import com.sda.onlineAuction.repository.ProductRepository;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -29,6 +30,11 @@ public class ProductService {
         Product product = productMapper.map(productDto, multipartFile);
         productRepository.save(product);
     }
+    public void update(ProductDto productDto, MultipartFile multipartFile){
+        Product product = productMapper.mapForUpdate(productDto, multipartFile);
+        productRepository.save(product);
+    }
+
 
     public List<ProductDto> getAllProductDtos(String email) {
         List<Product> products = productRepository.findAll();
@@ -48,6 +54,15 @@ public class ProductService {
         }
         return result;
     }
+    public List<ProductDto> getAllProductsDtos(String email){
+        List<Product> products = productRepository.findAll();
+        List<ProductDto> result = new ArrayList<>();
+        for(Product product : products){
+            ProductDto productDto = productMapper.map(product, email);
+            result.add(productDto);
+        }
+        return result;
+    }
 
     public Optional<ProductDto> getProductDtoById(String productId, String email){
         Optional<Product> optionalProduct = productRepository.findById(Integer.valueOf(productId));
@@ -62,6 +77,15 @@ public class ProductService {
 
     public List<ProductDto> getProductDtosFor(String email) {
         List<Product> products = productRepository.findByWinnerEmail(email);
+        List<ProductDto> result = new ArrayList<>();
+        for(Product product: products){
+            ProductDto productDto = productMapper.map(product, email);
+            result.add(productDto);
+        }
+        return result;
+    }
+    public List<ProductDto> getAllActiveProductDtosByCategory(String email, Category category){
+        List<Product> products = productRepository.findAllByEndDateTimeAfterAndCategory(LocalDateTime.now(), category);
         List<ProductDto> result = new ArrayList<>();
         for(Product product: products){
             ProductDto productDto = productMapper.map(product, email);

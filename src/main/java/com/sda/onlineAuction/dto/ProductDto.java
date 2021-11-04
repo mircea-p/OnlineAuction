@@ -19,6 +19,7 @@ public class ProductDto {
     private String image;
     private String currentBidPrice;
     private String loggedUserMaxBid;
+    private String winner;
 
 
 }

@@ -357,8 +357,12 @@ a {
 	text-align: right;
 }
 .featured .featured-item {
-	margin-bottom: 30px;
+	margin-bottom: 40px;
 	text-decoration: none;
+	width:300px;
+
+
+
 }
 .featured .featured-item h4 {
 	transition: all 0.5s;

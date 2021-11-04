@@ -49,7 +49,7 @@
 
     <div class="card p-3 bg-white"><i class="fa fa-apple"></i>
         <div class="about-product text-center mt-2">
-            <img th:src="${'data:image/png;base64,'+product.image}" alt="">
+            <img  width="400px" th:src="${'data:image/png;base64,'+product.image}" alt="">
             <div>
                 <h4 th:text="${product.name}"></h4>
                 <h6 th:text="${product.description}" class="mt-0 text-black-50"></h6>
@@ -69,12 +69,13 @@
 
                 <div class="d-flex justify-content-between p-price">
                     <span th:if="${product.currentBidPrice > '0'}">Current bid price:</span>
-                    <span th:if="${product.currentBidPrice == '0'}">No bids yet!</span>
+                    <span th:if="${product.currentBidPrice == '0'}" >No bids yet!</span>
                     <span th:if="${product.currentBidPrice > '0'}" th:text="${product.currentBidPrice}"></span>
                 </div>
 
                 <div class="d-flex justify-content-between p-price">
-                    <span th:if="${product.loggedUserMaxBid == product.currentBidPrice && product.loggedUserMaxBid != '0'}">You are winning this auction!</span>
+                    <span th:if="${product.loggedUserMaxBid == product.currentBidPrice && product.loggedUserMaxBid != '0' && product.winner == 'null'}">You are winning this auction!</span>
+                    <span th:if="${product.loggedUserMaxBid == product.currentBidPrice && product.loggedUserMaxBid != '0' && product.winner != 'null'}">You WON this product!!!!!</span>
                     <span th:if="${product.loggedUserMaxBid != product.currentBidPrice && product.loggedUserMaxBid != '0'}">Your bid of
                         <span th:text="${product.loggedUserMaxBid}"></span> was overtaken!</span>
                 </div>
@@ -87,12 +88,12 @@
 
                 <div sec:authorize="hasRole('ROLE_BIDDER')" class="d-flex justify-content-between p-price">
                         <form th:object="${bidDto}" method="post" th:action="@{/item/{id}(id=${product.id})}">
-                            <span>
+                            <span th:if="${product.winner == 'null'}">
 
-                                <input type="text" th:field="*{value}" id="bid_value"  placeholder="Your bid" class="input-xlarge">
+                                <input   type="text" th:field="*{value}" id="bid_value"  placeholder="Your bid" class="input-xlarge">
 
                             </span>
-                            <span>
+                            <span th:if="${product.winner == 'null'}">
                                 <button id="singlebutton" name="singlebutton" class="btn btn-primary" type="submit">Place bid</button>
                                 <p class="help-block"></p>
                             </span>

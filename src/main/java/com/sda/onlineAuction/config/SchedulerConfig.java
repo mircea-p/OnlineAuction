@@ -22,9 +22,9 @@ public class SchedulerConfig {
     @Scheduled(fixedDelay = 5000)
     public void cronJob(){
 
-        System.out.println("running cron job at: "+ LocalDateTime.now());
+   //     System.out.println("running cron job at: "+ LocalDateTime.now());
         List<Product> productList = productRepository.findAllExpiredWithoutWinnersAssigned(LocalDateTime.now());
-        System.out.println("We found " + productList.size()+" products eligible for winner assigned");
+   //     System.out.println("We found " + productList.size()+" products eligible for winner assigned");
         for(Product product : productList){
             Integer max = 0;
             User winner = null;

@@ -4,6 +4,7 @@ import com.sda.onlineAuction.dto.ProductDto;
 import com.sda.onlineAuction.model.Bid;
 import com.sda.onlineAuction.model.Category;
 import com.sda.onlineAuction.model.Product;
+import com.sda.onlineAuction.model.User;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -12,11 +13,28 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductMapper {
     public Product map(ProductDto productDto, MultipartFile multipartFile){
         Product product = new Product();
+        product.setName(productDto.getName());
+        product.setDescription(productDto.getDescription());
+        product.setCategory(Category.valueOf(productDto.getCategory()));
+        product.setStartingPrice(Integer.valueOf(productDto.getStartBidingPrice()));
+        product.setEndDateTime(LocalDateTime.parse(productDto.getEndDateTime()));
+        try {
+            product.setImage(multipartFile.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return product;
+
+    }
+    public Product mapForUpdate(ProductDto productDto, MultipartFile multipartFile){
+        Product product = new Product();
+        product.setId(Integer.valueOf(productDto.getId()));
         product.setName(productDto.getName());
         product.setDescription(productDto.getDescription());
         product.setCategory(Category.valueOf(productDto.getCategory()));
@@ -39,6 +57,11 @@ public class ProductMapper {
         productDto.setCategory(product.getCategory().name());
         productDto.setStartBidingPrice(product.getStartingPrice().toString());
         productDto.setEndDateTime(product.getEndDateTime().toString());
+        User winner = product.getWinner();
+        if(winner == null)
+            productDto.setWinner("null");
+        else
+            productDto.setWinner(product.getWinner().toString());
 
         Integer max = getBidMaxValue(product.getBidList());
         productDto.setCurrentBidPrice(max.toString());
