@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/assets/css/stylesMircea.css}"/>
+</head>
+<body>
+
+<nav>
+  <label class="logo">AuctionShop</label>
+  <ul>
+    <li class="nav-item active">
+      <a  sec:authorize="isAuthenticated()" class="nav-link" href="/home">Home </a>
+    </li>
+
+    <li class="nav-item">
+      <a sec:authorize="hasRole('ROLE_BIDDER')" class="nav-link" href="/myProducts">My products </a>
+    </li>
+
+    <li class="nav-item">
+      <a sec:authorize="hasRole('ROLE_SELLER')"class="nav-link" href="/addItem">Add Item</a>
+    </li>
+    <li class="nav-item">
+      <a sec:authorize="hasRole('ROLE_SELLER')"class="nav-link" href="/listOfProducts">Products List</a>
+    </li>
+    <li class="nav-item">
+      <a sec:authorize="isAnonymous()" class="nav-link" href="/registration">Registration</a>
+    </li>
+    <li class="nav-item">
+      <a sec:authorize="isAnonymous()" class="nav-link " href="/login">Login</a>
+    </li>
+    <li class="nav-item">
+      <a sec:authorize="isAuthenticated()" class="nav-link " href="/logout">Logout</a>
+    </li>
+
+
+
+  </ul>
+</nav>
+
+<!-- Products area -->
+<div class = "big-div">
+  <!--        This is THE BIG DIV!-->
+  <div class="left-div">
+    <label>Scriem cateceva aici!</label>
+  </div>
+  <div class= "first-div">
+    <!--             This is some text in the first div.-->
+    <form class="form-horizontal loginPage"   th:action="@{/login}" method="post">
+
+      <div id="legend">
+        <legend class="">Login</legend>
+      </div>
+
+      <div  class="control-group error">
+        <p th:if="${loginError}">Wrong user name or password!</p>
+
+      </div>
+
+
+      <div class="control-group">
+        <!-- E-mail -->
+        <label class="control-label" for="email">E-mail</label>
+        <div class="controls">
+          <input type="text" id="email" name="username" placeholder="E-mail" class="form-control">
+          <p class="help-block"></p>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <!-- Password-->
+        <label class="control-label" for="password">Password</label>
+        <div class="controls">
+          <input type="password" id="password" name="password" placeholder="Password" class="form-control">
+          <p class="help-block"></p>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <!-- Button -->
+        <div class="controls">
+          <button  class="btn btn-success" type = submit>Login</button>
+        </div>
+      </div>
+    </form>
+
+
+  </div>
+</div>
+
+
+</body>
+</html>

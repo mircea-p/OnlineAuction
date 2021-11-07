@@ -11,7 +11,6 @@ import com.sda.onlineAuction.service.UserService;
 import com.sda.onlineAuction.validator.BidDtoValidator;
 import com.sda.onlineAuction.validator.ProductDtoValidator;
 import com.sda.onlineAuction.validator.UserDtoValidator;
-import net.bytebuddy.dynamic.DynamicType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -20,7 +19,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.sql.SQLOutput;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,13 +47,16 @@ public class HomeController {
         ProductDto productDto = new ProductDto();
         model.addAttribute("productDto", productDto);
 
-        return "addItem";
+        return "addItemX";
     }
-    @GetMapping("/nav")
-    public String getNavPage(Model model) {
-
-        return "/nav";
-    }
+//    @GetMapping("/home")
+//    public String getNavPage(Model model, ProductDto productDto, Authentication authentication) {
+//        List<ProductDto> productDtoList = productService.getAllProductsDtos(authentication.getName());
+//        model.addAttribute("products", productDtoList);
+//        model.addAttribute("productDto", productDto);
+//
+//        return "homeX";
+//    }
     @GetMapping("/listOfProducts")
     public String getAllProductsList(Model model,ProductDto productDto, Authentication authentication) {
         System.out.println("Apelez pagina de: listOfProducts!");
@@ -63,7 +64,7 @@ public class HomeController {
         model.addAttribute("products", productDtoList);
         model.addAttribute("productDto", productDto);
 
-        return "listOfProducts";
+        return "listOfProductsX";
     }
     @GetMapping("/listOfProducts1")
     public String getAllProductsListByCategory(Model model,ProductDto productDto, Authentication authentication) {
@@ -73,21 +74,20 @@ public class HomeController {
         List<ProductDto> productDtoList1 = productService.getAllActiveProductDtosByCategory(authentication.getName(),category);
         model.addAttribute("productDto", productDto);
         model.addAttribute("products", productDtoList1);
-        return "listOfProducts1";
+        return "listOfProductsX";
     }
     @GetMapping("/editItem/{id}")
-    public String postEditProduct(@PathVariable(value="id") String id ,Model model,
+    public String getEditProduct(@PathVariable(value="id") String id ,Model model,
                                   ProductDto productDto,Authentication authentication){
         System.out.println("O intrat la get editItem");
         Optional<ProductDto> optionalProductDto = productService.getProductDtoById(id, authentication.getName());
         productDto = optionalProductDto.get();
         model.addAttribute("productDto", productDto);
-        return "editItem";
+        return "editItemX";
     }
-    @PostMapping("/editItem/{id}")
-    public String postEditProductPage(@RequestParam("productImage") MultipartFile multipartFile,
-                                  ProductDto productDto){
-//        System.out.println("O intrat la post editItem/id");
+    @PostMapping("/editItem")
+    public String postEditProductPage(ProductDto productDto, BindingResult bindingResult, @RequestParam("productImage") MultipartFile multipartFile) {
+        System.out.println("O intrat la post editItem");
 //        System.out.println("Nume produs nou: "+ productDto.getName() +", id: "+ productDto.getId() );
         productService.update(productDto,multipartFile );
 //        System.out.println("Nume produs nou: "+ productDto.getName() +", id: "+ productDto.getId() );
@@ -106,7 +106,7 @@ public class HomeController {
 //        System.out.println("Am primit un : " + productDto.getName());
         productDtoValidator.validate(productDto, bindingResult);
         if (bindingResult.hasErrors()) {
-            return "addItem";
+            return "addItemX";
         }
         productService.add(productDto, multipartFile);
         return "redirect:/addItem"; // rulez redirect catre Get.
@@ -119,7 +119,7 @@ public class HomeController {
         ProductDto productDto = new ProductDto();
         model.addAttribute("productDto", productDto);
         model.addAttribute("products", productDtoList);
-        return "home";
+        return "homeX";
     }
     @GetMapping({"/home1"})
     public String getHome1Page( ProductDto productDto, Model model, Authentication authentication) {
@@ -130,7 +130,7 @@ public class HomeController {
 //        ProductDto productDto = new ProductDto();
         model.addAttribute("productDto", productDto);
         model.addAttribute("products", productDtoList1);
-        return "home1";
+        return "homeX";
     }
 
 //    @PostMapping({"/home"})
@@ -147,7 +147,7 @@ public class HomeController {
     public String getmyProductsPage(Model model, Authentication authentication) {
         List<ProductDto> productDtoList = productService.getProductDtosFor(authentication.getName());
         model.addAttribute("products", productDtoList);
-        return "myProducts";
+        return "myProductsX";
     }
 
 
@@ -164,7 +164,7 @@ public class HomeController {
         model.addAttribute("bidDto", bidDto);
         ProductDto productDto = optionalProductDto.get();
         model.addAttribute("product", productDto);
-        return "viewItem";
+        return "viewItemX";
 
     }
 
@@ -180,7 +180,7 @@ public class HomeController {
                 return "errorPage";
             }
             model.addAttribute("product", optionalProductDto.get());
-            return "viewItem";
+            return "viewItemX";
         }
         bidService.placeBid(bidDto, productId, authentication.getName());
         return "redirect:/item/" + productId;
@@ -200,16 +200,18 @@ public class HomeController {
             return "registration";
         }
         userService.add(userDto);
-        return "redirect:/home";
+        return "redirect:/homeX";
     }
 
     @GetMapping(value = "/login")
     public String getLoginPage(Model model) {
-        return "login";
+
+        return "loginX";
     }
+
     @GetMapping(value = "/login-error")
     public String getLoginErrorPage(Model model) {
         model.addAttribute("loginError", true);
-        return "login";
+        return "loginX";
     }
 }

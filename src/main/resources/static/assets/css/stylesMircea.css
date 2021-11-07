@@ -29,7 +29,7 @@ nav ul li{
     margin: 0 5px;
 }
 nav ul li a{
-    color: #34ce57;
+    color: white;
     font-size: 17px;
     text-transform: uppercase;
     padding: 7px 13px;
@@ -37,7 +37,28 @@ nav ul li a{
 
 }
 a.active, a:hover{
-    background: black;
+    background:blue;
+}
+.nav-item{
+    display: inline-block;
+    line-height: 80px;
+    margin: 0 2px;
+}
+select{
+   border: 1px solid black;
+    border-radius: 4px;
+    box-sizing: border-box;
+    padding: 4px 5px;
+}
+button{
+    width: 100px;
+    background: #005cbf;
+    color: white;
+    padding: 5px 5px;
+    border-radius: 4px;
+    font-size: 15px;
+    border: none;
+
 }
 /*section{*/
 /*    !*background-image:  url(../images/televizor.png) ;*!*/
@@ -51,4 +72,122 @@ a.active, a:hover{
 /*}*/
 body{
     background-color: #ffeeba;
+
 }
+.big-div{
+    /*Asta controleaza pe cel verde*/
+    /*background-color: #9fcdff;*/
+    /*border: 5px solid black;*/
+    /*margin: 5px;*/
+    text-align: right;
+
+
+}
+.first-div{
+    /*Aici avem toate produsele introduse*/
+    background-color: white;
+    width: 80%;
+    /*border: 5px solid black;*/
+    border-radius: 5px;
+    /*margin: 1px;*/
+    text-align: center;
+    display: inline-block;
+    /*background-image:  url(../images/city.jpg);*/
+    /*background-position: center;*/
+
+}
+.second-div{
+    /*Fiecare produs in parte*/
+    background-color: white;
+    width: 200px;
+    float:left;
+    border: 1px solid black;
+    border-radius: 5px;
+    margin: 20px;
+    box-shadow: 0px 10px 30px 5px rgba(0,0,0,.15);
+}
+h4{
+    font-size: 20px;
+
+}
+h6{
+    /*Price nr*/
+    font-size: 20px;
+    color: blue;
+}
+img#p1{
+    width: 90%;
+    /*border: 5px solid black;*/
+    border-radius: 5px;
+    margin: 5px;
+}
+h3{
+    font-size: 40px;
+
+}
+.price-nr{
+    float:left;
+    margin: 5px;
+}
+.price-text{
+    float:left;
+    font-size: 20px;
+    margin: 5px;
+}
+.price-div{
+    background-color:bisque;
+    float:left;
+    border-radius: 5px;
+    margin: 5px;
+}
+.left-div{
+    float: left;
+    /*background-color: #533f03;*/
+    width: 20%;
+    height: 700px;
+    padding: 20px;
+    text-align: center;
+    background-image:  url(../images/city.jpg);
+    /*margin: 100px auto;*/
+
+
+}
+label#left-div-label{
+    color: white;
+
+}
+.form-label {
+   font-size: 20px;
+}
+input{
+    border: 1px solid black;
+    border-radius: 4px;
+    box-sizing: border-box;
+    padding: 4px 5px;
+
+}
+select#add-edit{
+    border: 1px solid black;
+    border-radius: 4px;
+    box-sizing: border-box;
+    padding: 4px 5px;
+
+}
+.form-group{
+    width: 300px;
+   alignment: center;
+    border-radius: 4px;
+    background: #b3d7ff;
+    padding: 4px 5px;
+
+}
+.addItemSection-div{
+    alignment: center;
+}
+.addItemSection-div{
+    alignment: center;
+}
+/*form{*/
+/*    width:40%;*/
+/*    alignment: center;*/
+/*}*/

@@ -74,8 +74,8 @@
 
             </form>
 
-                <div align ="right" class="nav-item">
-                    <img width="100px" al th:src="@{/assets/images/logoAuctionApp.png}" >
+                <div float="right"  >
+                    <img  width="100px" al th:src="@{/assets/images/logoAuctionApp.png}" >
                 </div>
 
             </ul>
@@ -91,8 +91,8 @@
                 <div class="featured-item">
                     <img th:src="${'data:image/png;base64,'+product.image}" alt="">
                     <h4 th:text="${product.name}"></h4th:text></h4>
-                    <h6 th:if="${product.currentBidPrice != '0'}" th:text="${product.currentBidPrice}"></h6>
-                    <h6 th:if="${product.currentBidPrice == '0'}" th:text="${product.startBidingPrice}"></h6>
+                    <h6 th:if="${product.currentBidPrice != '0'}" th:text="${product.currentBidPrice}"> lei</h6>
+                    <h6 th:if="${product.currentBidPrice == '0'}" th:text="${product.startBidingPrice}"> lei</h6>
                 </div>
             </a>
         </div>

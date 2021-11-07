@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/stylesMircea.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/tables.css}"/>
+
+</head>
+<body>
+<nav>
+    <label class="logo">AuctionShop</label>
+    <ul>
+        <li class="nav-item active">
+            <a  sec:authorize="isAuthenticated()" class="nav-link" href="/home">Home </a>
+        </li>
+
+        <li class="nav-item">
+            <a sec:authorize="hasRole('ROLE_BIDDER')" class="nav-link" href="/myProducts">My products </a>
+        </li>
+
+        <li class="nav-item">
+            <a sec:authorize="hasRole('ROLE_SELLER')"class="nav-link" href="/addItem">Add Item</a>
+        </li>
+        <li class="nav-item">
+            <a sec:authorize="hasRole('ROLE_SELLER')"class="nav-link" href="/listOfProducts">Products List</a>
+        </li>
+        <li class="nav-item">
+            <a sec:authorize="isAnonymous()" class="nav-link" href="/registration">Registration</a>
+        </li>
+        <li class="nav-item">
+            <a sec:authorize="isAnonymous()" class="nav-link " href="/login">Login</a>
+        </li>
+        <li class="nav-item">
+            <a sec:authorize="isAuthenticated()" class="nav-link " href="/logout">Logout</a>
+        </li>
+        <li class="nav-item active">
+            <a sec:authorize="isAuthenticated()" class="nav-link ">Search by:</a>
+        </li>
+        <!-- Product category selection area -->
+
+        <form  class="nav-item" th:object="${productDto}" th:action="@{/listOfProducts1}"  enctype="multipart/form-data">
+            <div class="nav-item">
+                <div class="nav-item">
+                    <select class="form-control" name="color" id = "product_category" th:field = "*{category}">
+                        <option th:each="colorOpt : ${T(com.sda.onlineAuction.model.Category).values()}"
+                                th:value="${colorOpt.name()}" th:text="${colorOpt.name()}"></option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Product button area-->
+            <div class="nav-item" align ="center">
+                <label class="button-search" for="singlebutton"></label>
+                <div class="nav-item">
+                    <button id="singlebutton" name="singlebutton" class="btn btn-primary" type="submit">Search!</button>
+                </div>
+            </div>
+        </form>
+
+
+    </ul>
+</nav>
+<!-- Products area -->
+<div class = "big-div">
+    <!--        This is THE BIG DIV!-->
+    <div class="left-div">
+        <label id="left-div-label">Scriem cateceva aici!</label>
+    </div>
+    <div class= "first-div">
+        <!--             This is some text in the first div.-->
+        <h1> All Products</h1>
+        <div class="table-background">
+
+
+            <table class = "products-table"  >
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Picture</th>
+                    <th>Description</th>
+                    <th>Category</th>
+                    <th>End Bid Date</th>
+                    <th>Price</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+
+                <tbody>
+
+                <tr th:each="product:${products}">
+                    &nbsp;
+                    <td th:text="${product.name}">Name</td>
+                    <td>
+                        <img width="100px" th:src="${'data:image/png;base64,'+product.image}">
+                    </td>
+                    &nbsp;
+                    <td th:text="${product.description}">Description</td>
+                    &nbsp;
+                    <td th:text="${product.category}">Category</td>
+                    &nbsp;
+                    <td th:text="${product.endDateTime}">End Bid Date</td>
+                    &nbsp;
+                    <td th:text="${product.startBidingPrice}">Price</td>
+                    &nbsp;
+                    <td>
+                        &nbsp;
+                        <a th:href="@{'/editItem/' + ${product.id}}">Edit</a>
+                        &nbsp;
+                        <a th:href="@{'/deleteItem/' + ${product.id}}"><span>Delete</span></a>
+                        &nbsp;
+                    </td>
+                </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        </div>
+
+
+
+</div>
+</div>
+</body>
+</html>

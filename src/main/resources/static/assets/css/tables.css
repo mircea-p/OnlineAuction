@@ -38,11 +38,11 @@ h1{
     text-align: center;
 }
 /* lucram la sectiunea mare*/
-/*.table-background{*/
-/*    background-color: green;*/
-/*    border-radius: 10px;*/
-/*   align-content: center;*/
-/*}*/
+.table-background{
+   width:100%;
+
+   alignment: center;
+}
 /*body{*/
 /*   align-content: center;*/
 /*}*/
