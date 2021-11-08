@@ -51,7 +51,7 @@ select{
     padding: 4px 5px;
 }
 button{
-    width: 100px;
+    /*width: 100px;*/
     background: #005cbf;
     color: white;
     padding: 5px 5px;
@@ -71,7 +71,7 @@ button{
 /*    background-size: cover;*/
 /*}*/
 body{
-    background-color: #ffeeba;
+    /*background-color: #ffeeba;*/
 
 }
 .big-div{
@@ -108,12 +108,14 @@ body{
 }
 h4{
     font-size: 20px;
+    padding: 5px 0px;
 
 }
 h6{
     /*Price nr*/
     font-size: 20px;
     color: blue;
+    padding: 5px 0px;
 }
 img#p1{
     width: 90%;
@@ -142,12 +144,12 @@ h3{
 }
 .left-div{
     float: left;
-    /*background-color: #533f03;*/
+    background-color: #533f03;
     width: 20%;
     height: 700px;
     padding: 20px;
     text-align: center;
-    background-image:  url(../images/city.jpg);
+    background-image:  url(../images/back3.jpg);
     /*margin: 100px auto;*/
 
 
@@ -158,6 +160,7 @@ label#left-div-label{
 }
 .form-label {
    font-size: 20px;
+    /*border: 1px solid black;*/
 }
 input{
     border: 1px solid black;
@@ -174,11 +177,12 @@ select#add-edit{
 
 }
 .form-group{
-    width: 300px;
+    /*width: 300px;*/
    alignment: center;
-    border-radius: 4px;
-    background: #b3d7ff;
-    padding: 4px 5px;
+    /*border-radius: 4px;*/
+    /*background: #b3d7ff;*/
+    padding: 7px 5px;
+    /*border: 1px solid black;*/
 
 }
 .addItemSection-div{
@@ -187,6 +191,100 @@ select#add-edit{
 .addItemSection-div{
     alignment: center;
 }
+
+.form-horizontal{
+    /*border: 1px solid black;*/
+    border-radius: 4px;
+    box-sizing: border-box;
+    padding: 10px 10px;
+
+}
+input#email,#password, #firstName, #lastName,
+#userRole,#product_name, #product_description,
+#product_starting_price, #product_category,
+#auction_end_time, #product_image, #product_id,
+#product_category1{
+    border: 1px solid black;
+    border-radius: 4px;
+    box-sizing: border-box;
+    padding: 5px 50px;
+    font-size: 15px;
+    box-shadow: 0px 10px 30px 5px rgba(0,0,0,.15);
+
+}
+.control-label{
+    font-size: 25px;
+    padding: 20px;
+
+}
+.btn{
+    padding: 10px 10px;
+    font-size: 15px;
+    box-shadow: 0px 10px 30px 5px rgba(0,0,0,.15);
+}
+.btn:hover{
+    background:green;
+}
+div.controls{
+    padding: 5px;
+}
+legend#legend-login{
+    /*width: 300px;*/
+    font-size: 35px;
+    /*padding: 10px;*/
+    /*border: 1px solid black;*/
+    border-radius: 4px;
+    color: #005cbf;
+
+}
+div#legend{
+    /*border: 3px solid black;*/
+    /*text-align: center;*/
+    /*alignment: center;*/
+}
+div.control-group{
+    /*border: 1px solid blue;*/
+    padding: 10px
+}
+label#scris-stanga{
+
+    color: white;
+    font-size: 35px;
+    /*padding: 5px;*/
+}
+label#scris-stanga1{
+
+    color: white;
+    font-size: 25px;
+    /*padding: 40px 0px;*/
+}
+div.left-label-div{
+    padding: 30px 0px;
+}
+img{
+    padding: 5px 0px;
+    border-radius: 4px;
+}
+span{
+    font-size: 20px;
+}
+span#Current\ bid\ price{
+    color: blue;
+}
+span#Current\ bid\ price\ wining,#Current\ bid\ price\ won{
+    color: limegreen;
+    font-size: 30px;
+}
+span#Current\ bid\ price\ losing,#Current\ bid\ price\ losing1{
+    color: red;
+    font-size: 30px;
+}
+div.d-flex{
+    padding: 5px;
+}
+/*div.control-group{*/
+/*    text-align: left;*/
+/*}*/
 /*form{*/
 /*    width:40%;*/
 /*    alignment: center;*/

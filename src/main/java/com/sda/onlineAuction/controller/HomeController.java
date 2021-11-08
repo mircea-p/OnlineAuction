@@ -190,17 +190,17 @@ public class HomeController {
     public String getRegistrationPage(Model model) {
         UserDto userDto = new UserDto();
         model.addAttribute("userDto", userDto);
-        return "registration";
+        return "registrationX";
     }
 
     @PostMapping(value = "/registration")
     public String postRegistrationPage(Model model, UserDto userDto, BindingResult bindingResult) {
         userDtoValidator.validate(userDto, bindingResult);
         if (bindingResult.hasErrors()) {
-            return "registration";
+            return "registrationX";
         }
         userService.add(userDto);
-        return "redirect:/homeX";
+        return "redirect:/home";
     }
 
     @GetMapping(value = "/login")

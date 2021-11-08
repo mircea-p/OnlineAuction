@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/assets/css/stylesMircea.css}"/>
+</head>
+<body>
+
+<nav>
+  <label class="logo">AuctionShop</label>
+  <ul>
+    <li class="nav-item active">
+      <a  sec:authorize="isAuthenticated()" class="nav-link" href="/home">Home </a>
+    </li>
+
+    <li class="nav-item">
+      <a sec:authorize="hasRole('ROLE_BIDDER')" class="nav-link" href="/myProducts">My products </a>
+    </li>
+
+    <li class="nav-item">
+      <a sec:authorize="hasRole('ROLE_SELLER')"class="nav-link" href="/addItem">Add Item</a>
+    </li>
+    <li class="nav-item">
+      <a sec:authorize="hasRole('ROLE_SELLER')"class="nav-link" href="/listOfProducts">Products List</a>
+    </li>
+    <li class="nav-item">
+      <a sec:authorize="isAnonymous()" class="nav-link" href="/registration">Registration</a>
+    </li>
+    <li class="nav-item">
+      <a sec:authorize="isAnonymous()" class="nav-link " href="/login">Login</a>
+    </li>
+    <li class="nav-item">
+      <a sec:authorize="isAuthenticated()" class="nav-link " href="/logout">Logout</a>
+    </li>
+
+
+
+  </ul>
+</nav>
+
+<!-- Products area -->
+<div class = "big-div">
+  <!--        This is THE BIG DIV!-->
+  <div class="left-div">
+    <div class="left-label-div">
+      <label id="scris-stanga">Welcome to the online auction shop!</label>
+    </div>
+    <div class="left-label-div">
+      <label id="scris-stanga1">Please enter your email and password for login!</label>
+    </div>
+  </div>
+  <div class= "first-div">
+    <!--             This is some text in the first div.-->
+    <form class="form-horizontal registerForm"  th:object="${userDto}" th:action="@{/registration}" method="post">
+
+      <div id="legend">
+        <legend id="legend-login"class="">Registration</legend>
+      </div>
+
+      <div class="mb-3">
+        <!-- E-mail -->
+        <label class="control-label" for="email">E-mail</label>
+        <div class="controls">
+          <input type="text" id="email" th:field="*{email}" placeholder="E-mail" class="form-control">
+          <label th:if="${#fields.hasErrors('email')}" th:class="'error'" th:errors="*{email}"
+                 class="col-lg-4 control-label" style="color:red;" ></label>
+          <p class="help-block"></p>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <!--Firstname -->
+        <label class="control-label" for="firstName">First Name: </label>
+        <div class="controls">
+          <input type="text" id="firstName" th:field="*{firstName}" placeholder="First Name" class="form-control">
+          <p class="help-block"></p>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <!-- lastName-->
+        <label class="control-label" for="lastName">Last Name: </label>
+        <div class="controls">
+          <input type="text" id="lastName" th:field="*{lastName}" placeholder="Last Name" class="form-control">
+          <p class="help-block"></p>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <!-- Password-->
+        <label class="control-label" for="password">Password</label>
+        <div class="controls">
+          <input type="password" id="password" th:field="*{password}" placeholder="Password" class="form-control">
+          <p class="help-block"></p>
+
+        </div>
+      </div>
+
+      <div class="control-group">
+        <!-- User Type-->
+        <label class="control-label" for="userRole">User Role</label>
+        <div class="controls">
+          <select  id = "userRole" class="form-control" th:field = "*{userRole}">
+            <option th:each="role : ${T(com.sda.onlineAuction.model.UserRole).values()}"
+                    th:value="${role.name()}" th:text="${role.getFriendlyName()}"></option>
+          </select>
+          <p class="help-block"></p>
+        </div>
+      </div>
+
+
+      <div class="control-group">
+        <!-- Button -->
+        <div class="controls">
+          <button class="btn btn-success">Register</button>
+        </div>
+      </div>
+    </form>
+
+
+  </div>
+</div>
+
+
+</body>
+</html>
