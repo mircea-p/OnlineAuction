@@ -16,23 +16,23 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
 
 @Controller
-public class HomeController {
+public class ProductController {
 
     @Autowired
     private ProductService productService;
     @Autowired
     private ProductDtoValidator productDtoValidator;
-    @Autowired
-    private UserDtoValidator userDtoValidator;
-    @Autowired
-    private UserService userService;
+
     @Autowired
     private BidService bidService;
     @Autowired
@@ -49,16 +49,9 @@ public class HomeController {
 
         return "addItemX";
     }
-//    @GetMapping("/home")
-//    public String getNavPage(Model model, ProductDto productDto, Authentication authentication) {
-//        List<ProductDto> productDtoList = productService.getAllProductsDtos(authentication.getName());
-//        model.addAttribute("products", productDtoList);
-//        model.addAttribute("productDto", productDto);
-//
-//        return "homeX";
-//    }
+
     @GetMapping("/listOfProducts")
-    public String getAllProductsList(Model model,ProductDto productDto, Authentication authentication) {
+    public String getAllProductsList(Model model, ProductDto productDto, Authentication authentication) {
         System.out.println("Apelez pagina de: listOfProducts!");
         List<ProductDto> productDtoList = productService.getAllProductsDtos(authentication.getName());
         model.addAttribute("products", productDtoList);
@@ -66,37 +59,41 @@ public class HomeController {
 
         return "listOfProductsX";
     }
+
     @GetMapping("/listOfProducts1")
-    public String getAllProductsListByCategory(Model model,ProductDto productDto, Authentication authentication) {
+    public String getAllProductsListByCategory(Model model, ProductDto productDto, Authentication authentication) {
         System.out.println("Apelez pagina de: listOfProducts by Category!");
         Category category = Category.valueOf(productDto.getCategory());
-        System.out.println("Ai ales categoria : "+ category);
-        List<ProductDto> productDtoList1 = productService.getAllActiveProductDtosByCategory(authentication.getName(),category);
+        System.out.println("Ai ales categoria : " + category);
+        List<ProductDto> productDtoList1 = productService.getAllActiveProductDtosByCategory(authentication.getName(), category);
         model.addAttribute("productDto", productDto);
         model.addAttribute("products", productDtoList1);
         return "listOfProductsX";
     }
+
     @GetMapping("/editItem/{id}")
-    public String getEditProduct(@PathVariable(value="id") String id ,Model model,
-                                  ProductDto productDto,Authentication authentication){
+    public String getEditProduct(@PathVariable(value = "id") String id, Model model,
+                                 ProductDto productDto, Authentication authentication) {
         System.out.println("O intrat la get editItem");
         Optional<ProductDto> optionalProductDto = productService.getProductDtoById(id, authentication.getName());
         productDto = optionalProductDto.get();
         model.addAttribute("productDto", productDto);
         return "editItemX";
     }
+
     @PostMapping("/editItem")
     public String postEditProductPage(ProductDto productDto, BindingResult bindingResult, @RequestParam("productImage") MultipartFile multipartFile) {
         System.out.println("O intrat la post editItem");
 //        System.out.println("Nume produs nou: "+ productDto.getName() +", id: "+ productDto.getId() );
-        productService.update(productDto,multipartFile );
+        productService.update(productDto, multipartFile);
 //        System.out.println("Nume produs nou: "+ productDto.getName() +", id: "+ productDto.getId() );
         return "redirect:/listOfProducts";
     }
+
     @GetMapping("/deleteItem/{id}")
-    public String deleteProductPage(@PathVariable(value="id") String id){
+    public String deleteProductPage(@PathVariable(value = "id") String id) {
         System.out.println("Am intrat la delete item!");
-       productRepository.deleteById(Integer.valueOf(id));
+        productRepository.deleteById(Integer.valueOf(id));
         return "redirect:/listOfProducts";
     }
 
@@ -113,7 +110,7 @@ public class HomeController {
 
     }
 
-    @GetMapping({"/home","/"})
+    @GetMapping({"/home", "/"})
     public String getHomePage(Model model, Authentication authentication) {
         List<ProductDto> productDtoList = productService.getAllActiveProductDtos(authentication.getName());
         ProductDto productDto = new ProductDto();
@@ -121,28 +118,20 @@ public class HomeController {
         model.addAttribute("products", productDtoList);
         return "homeX";
     }
+
     @GetMapping({"/home1"})
-    public String getHome1Page( ProductDto productDto, Model model, Authentication authentication) {
-        System.out.println("Categoria este: "+ productDto.getCategory());
+    public String getHome1Page(ProductDto productDto, Model model, Authentication authentication) {
+        System.out.println("Categoria este: " + productDto.getCategory());
         Category category = Category.valueOf(productDto.getCategory());
-        System.out.println("Ai ales categoria : "+ category);
-        List<ProductDto> productDtoList1 = productService.getAllActiveProductDtosByCategory(authentication.getName(),category);
+        System.out.println("Ai ales categoria : " + category);
+        List<ProductDto> productDtoList1 = productService.getAllActiveProductDtosByCategory(authentication.getName(), category);
 //        ProductDto productDto = new ProductDto();
         model.addAttribute("productDto", productDto);
         model.addAttribute("products", productDtoList1);
         return "homeX";
     }
 
-//    @PostMapping({"/home"})
-//    public String postHomePageByCategory(ProductDto productDto,Model model, Authentication authentication) {
-//
-//        System.out.println(" The category selected is: " + productDto.getCategory());
-//        Category category = Category.valueOf(productDto.getCategory());
-//        List<ProductDto> productDtoList1 = productService.getAllActiveProductDtosByCategory(authentication.getName(),category);
-//        model.addAttribute("productDto", productDto);
-//        model.addAttribute("products", productDtoList1);
-//         return "/home1";
-//    }
+
     @GetMapping("/myProducts")
     public String getmyProductsPage(Model model, Authentication authentication) {
         List<ProductDto> productDtoList = productService.getProductDtosFor(authentication.getName());
@@ -186,32 +175,4 @@ public class HomeController {
         return "redirect:/item/" + productId;
     }
 
-    @GetMapping("/registration")
-    public String getRegistrationPage(Model model) {
-        UserDto userDto = new UserDto();
-        model.addAttribute("userDto", userDto);
-        return "registrationX";
-    }
-
-    @PostMapping(value = "/registration")
-    public String postRegistrationPage(Model model, UserDto userDto, BindingResult bindingResult) {
-        userDtoValidator.validate(userDto, bindingResult);
-        if (bindingResult.hasErrors()) {
-            return "registrationX";
-        }
-        userService.add(userDto);
-        return "redirect:/home";
-    }
-
-    @GetMapping(value = "/login")
-    public String getLoginPage(Model model) {
-
-        return "loginX";
-    }
-
-    @GetMapping(value = "/login-error")
-    public String getLoginErrorPage(Model model) {
-        model.addAttribute("loginError", true);
-        return "loginX";
-    }
 }
